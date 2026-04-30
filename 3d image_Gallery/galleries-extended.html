@@ -1,0 +1,255 @@
+
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>3D Ultimate Geometric Gallery</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,400..700;1,400..700&display=swap');
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: "Lora", serif;
+        }
+
+        body {
+            width: 100%;
+            background: #0a0a0a;
+            color: #fff;
+            overflow-x: hidden;
+        }
+
+        /* --- Main Timeline Container --- */
+        .container {
+            width: 100%;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 150px 0;
+            gap: 30rem; /* Massive gap for 3D depth isolation */
+        }
+
+        /* --- Section Wrapper --- */
+        .outerBox {
+            position: relative;
+            width: 100%;
+            height: 35rem;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        /* --- Label Styling --- */
+        .genre-label {
+            position: absolute;
+            top: -120px;
+            letter-spacing: 1rem;
+            text-transform: uppercase;
+            font-size: 2rem;
+            opacity: 0.15;
+            pointer-events: none;
+            text-align: center;
+            width: 100%;
+            background: linear-gradient(to bottom, #fff, transparent);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        /* --- The 3D Engine --- */
+        .box {
+            position: relative;
+            width: 200px;
+            height: 280px;
+            transform-style: preserve-3d;
+            transform: perspective(1000px);
+            transition: transform 0.8s cubic-bezier(0.2, 0.8, 0.2, 1);
+        }
+
+        .box span {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: #222;
+            transform-style: preserve-3d;
+            -webkit-box-reflect: below 5px linear-gradient(transparent, transparent, #0002);
+            border: 1px solid rgba(255,255,255,0.1);
+            transition: opacity 0.5s;
+        }
+
+        .box span img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            display: block;
+        }
+
+        /* --- SHAPE 1: FLOWER LEAF (Organic Bloom) --- */
+        .shape-flower .box span {
+            transform: rotateY(calc(var(--i) * 45deg)) translateZ(300px) rotateX(25deg);
+            /* Leaf/Petal Shape */
+            clip-path: polygon(50% 0%, 100% 40%, 80% 100%, 20% 100%, 0% 40%);
+        }
+        
+        .shape-flower .center-bud {
+            position: absolute;
+            width: 50px;
+            height: 50px;
+            background: radial-gradient(#ffd54f, #f57f17);
+            border-radius: 50%;
+            transform: translateZ(50px);
+            box-shadow: 0 0 40px #f57f17;
+            z-index: 10;
+        }
+
+        /* --- SHAPE 2: SPIRAL HELIX (Staircase) --- */
+        .shape-spiral .box span {
+            transform: rotateY(calc(var(--i) * 40deg)) translateZ(280px) translateY(calc(var(--i) * 35px));
+        }
+
+        /* --- SHAPE 3: HEXAGON (Geometric) --- */
+        .shape-hexagon .box span {
+            transform: rotateY(calc(var(--i) * 60deg)) translateZ(250px);
+            clip-path: polygon(25% 0%, 75% 0%, 100% 50%, 75% 100%, 25% 100%, 0% 50%);
+        }
+
+        /* --- SHAPE 4: SPHERE (Orbital) --- */
+        .shape-sphere .box span {
+            transform: rotateY(calc(var(--i) * 45deg)) translateZ(250px) rotateX(calc(var(--i) * 8deg));
+            border-radius: 50% 50% 0 0;
+        }
+
+        /* --- SHAPE 5: TIMELINE (Ferris Wheel) --- */
+        .shape-timeline .box span {
+            transform: rotateX(calc(var(--i) * 90deg)) translateZ(200px);
+        }
+
+        /* --- Shared Hover Logic --- */
+        .outerBox:hover .box span {
+            opacity: 0.3;
+        }
+        .outerBox .box span:hover {
+            opacity: 1;
+            cursor: crosshair;
+        }
+
+        /* --- ANIMATIONS --- */
+        /* Horizontal Rotation */
+        .outerBox:not(.shape-timeline):not(:hover) .box {
+            animation: animateY 25s linear infinite;
+        }
+
+        /* Vertical Rotation */
+        .shape-timeline:not(:hover) .box {
+            animation: animateX 15s linear infinite;
+        }
+
+        @keyframes animateY {
+            0% { transform: perspective(1000px) rotateX(-10deg) rotateY(0deg); }
+            100% { transform: perspective(1000px) rotateX(-10deg) rotateY(360deg); }
+        }
+
+        @keyframes animateX {
+            0% { transform: perspective(1000px) rotateX(0deg); }
+            100% { transform: perspective(1000px) rotateX(360deg); }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        
+        <div class="outerBox shape-flower">
+            <h2 class="genre-label">Flower Bloom</h2>
+            <div class="center-bud"></div>
+            <div class="box">
+                <span style="--i: 1;"><img src="https://picsum.photos/id/306/400/600"></span>
+                <span style="--i: 2;"><img src="https://picsum.photos/id/401/400/600"></span>
+                <span style="--i: 3;"><img src="https://picsum.photos/id/327/400/600"></span>
+                <span style="--i: 4;"><img src="https://picsum.photos/id/321/400/600"></span>
+                <span style="--i: 5;"><img src="https://picsum.photos/id/319/400/600"></span>
+                <span style="--i: 6;"><img src="https://picsum.photos/id/311/400/600"></span>
+                <span style="--i: 7;"><img src="https://picsum.photos/id/106/400/600"></span>
+                <span style="--i: 8;"><img src="https://picsum.photos/id/429/400/600"></span>
+            </div>
+        </div>
+
+        <div class="outerBox shape-hexagon">
+            <h2 class="genre-label">Modern Hexagon</h2>
+            <div class="box">
+                <span style="--i: 1;"><img src="https://i.pinimg.com/736x/27/31/f0/2731f01304a7de9dfd6bbabfb9039e53.jpg"></span>
+                <span style="--i: 2;"><img src="https://i.pinimg.com/736x/7c/d9/e9/7cd9e9cc668f5893f53b23740b3d28af.jpg"></span>
+                <span style="--i: 3;"><img src="https://i.pinimg.com/736x/05/27/10/052710213fb79eb70a54a2d62002502e.jpg"></span>
+                <span style="--i: 4;"><img src="https://i.pinimg.com/736x/b9/8d/a5/b98da56327eb7bf4b1e786ff98a5b0ec.jpg"></span>
+                <span style="--i: 5;"><img src="https://i.pinimg.com/736x/3c/c6/aa/3cc6aa77e63474fafca38fc51b05787c.jpg"></span>
+                <span style="--i: 6;"><img src="https://i.pinimg.com/736x/c2/80/4c/c2804c81c380d127dfe56aa06f39b7a8.jpg"></span>
+            </div>
+        </div>
+
+        <div class="outerBox shape-spiral">
+            <h2 class="genre-label">Twisted Helix</h2>
+            <div class="box">
+                <span style="--i: 1;"><img src="https://picsum.photos/id/10/400/600"></span>
+                <span style="--i: 2;"><img src="https://picsum.photos/id/11/400/600"></span>
+                <span style="--i: 3;"><img src="https://picsum.photos/id/12/400/600"></span>
+                <span style="--i: 4;"><img src="https://picsum.photos/id/13/400/600"></span>
+                <span style="--i: 5;"><img src="https://picsum.photos/id/14/400/600"></span>
+                <span style="--i: 6;"><img src="https://picsum.photos/id/15/400/600"></span>
+                <span style="--i: 7;"><img src="https://picsum.photos/id/16/400/600"></span>
+                <span style="--i: 8;"><img src="https://picsum.photos/id/17/400/600"></span>
+            </div>
+        </div>
+
+        <div class="outerBox shape-timeline">
+            <h2 class="genre-label">Ferris Wheel</h2>
+            <div class="box">
+                <span style="--i: 1;"><img src="https://i.pinimg.com/736x/56/75/d7/5675d796e21c20d3031e9f5d0ab1c650.jpg"></span>
+                <span style="--i: 2;"><img src="https://i.pinimg.com/736x/27/15/49/271549e8df2b16edd06e020a632d0ad0.jpg"></span>
+                <span style="--i: 3;"><img src="https://i.pinimg.com/736x/27/31/f0/2731f01304a7de9dfd6bbabfb9039e53.jpg"></span>
+                <span style="--i: 4;"><img src="https://i.pinimg.com/736x/7c/d9/e9/7cd9e9cc668f5893f53b23740b3d28af.jpg"></span>
+            </div>
+        </div>
+
+    </div>
+
+    <script>
+        const galleries = document.querySelectorAll(".outerBox");
+
+        galleries.forEach((gallery) => {
+            const box = gallery.querySelector(".box");
+
+            gallery.onmousemove = (e) => {
+                // Pause auto-animation
+                box.style.animation = "none";
+                
+                let rect = gallery.getBoundingClientRect();
+                // Mouse tracking relative to the box center
+                let x = (e.clientX - rect.left - rect.width / 2) / 7;
+                let y = (e.clientY - rect.top - rect.height / 2) / 7;
+
+                // Vertical Timeline handles Y-axis mouse for X rotation
+                if (gallery.classList.contains("shape-timeline")) {
+                    box.style.transform = `perspective(1000px) rotateX(${y * 2}deg)`;
+                } else {
+                    // Standard shapes use both axes for a premium feel
+                    box.style.transform = `perspective(1000px) rotateY(${x}deg) rotateX(${-y}deg)`;
+                }
+            };
+
+            gallery.onmouseleave = () => {
+                // Restore correct animation axis
+                if (gallery.classList.contains("shape-timeline")) {
+                    box.style.animation = "animateX 15s linear infinite";
+                } else {
+                    box.style.animation = "animateY 25s linear infinite";
+                }
+            };
+        });
+    </script>
+</body>
+</html>
