@@ -1,0 +1,195 @@
+        @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap');
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Poppins', sans-serif;
+        }
+
+        body {
+            width: 100%;
+            height: 100vh;
+            background: radial-gradient(circle at top left, #1e272e, #000000);
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            overflow: hidden;
+        }
+
+        /* --- FLOATING TITLE --- */
+        /* --- FLOATING TITLE --- */
+.floating-header {
+    position: fixed;
+    top: 40px;
+    left: 0;
+    width: 100%;
+    text-align: center;
+    z-index: 100;
+    display: flex;
+    justify-content: center;
+    pointer-events: none; /* Allows clicking through the header container */
+}
+
+.main-title {
+    pointer-events: auto; /* Re-enables interaction for the title itself */
+    color: #fff;
+    font-size: 2.5rem;
+    letter-spacing: 5px;
+    font-weight: 600;
+    cursor: help;
+    position: relative;
+    text-transform: uppercase;
+    background: linear-gradient(to right, #ffffff, #777777);
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+
+/* --- HOVER TOOLTIP --- */
+.main-title::after {
+    /* 1. RESET EVERYTHING */
+    all: initial; 
+    
+    /* 2. RE-APPLY TEXT & FONT */
+    content: "A curated showcase of modern web architecture & source code modules.";
+    font-family: 'Poppins', sans-serif; /* Match your body font */
+    color: #ffffff !important;
+    -webkit-text-fill-color: #ffffff !important;
+    text-align: center;
+    font-size: 0.85rem;
+    font-weight: 400;
+    line-height: 1.5;
+    letter-spacing: 0.5px;
+
+    /* 3. POSITIONING */
+    position: absolute;
+    top: 120%;
+    left: 50%;
+    transform: translateX(-50%) translateY(15px);
+    width: 300px;
+    padding: 15px;
+    
+    /* 4. DESIGN & VISIBILITY */
+    background: rgba(15, 15, 15, 0.95); /* Deep dark background */
+    backdrop-filter: blur(12px);
+    border: 1px solid rgba(255, 255, 255, 0.15);
+    border-radius: 12px;
+    box-shadow: 0 15px 35px rgba(0, 0, 0, 0.6);
+    
+    opacity: 0;
+    visibility: hidden;
+    transition: all 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    pointer-events: none;
+    z-index: 999;
+}
+
+.main-title:hover::after {
+    opacity: 1;
+    visibility: visible;
+    transform: translateX(-50%) translateY(0);
+}
+        /* --- CARD STYLING --- */
+        .container {
+            display: flex;
+            gap: 3rem;
+            padding: 20px;
+            margin-top: 80px; /* Offset for floating title */
+        }
+
+        .card {
+            width: 18rem;
+            height: 22rem;
+            position: relative;
+            cursor: pointer;
+        }
+
+        .top {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 100%;
+            height: 11rem;
+            background: rgba(255, 255, 255, 0.03);
+            backdrop-filter: blur(15px);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            border-radius: 24px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            transition: all 0.7s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            z-index: 2;
+            box-shadow: 0 15px 35px rgba(0,0,0,0.5);
+        }
+
+        .top i {
+            font-size: 4rem;
+            background: var(--accent-gradient);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            filter: drop-shadow(0 0 15px var(--accent-color));
+        }
+
+        .card:hover .top {
+            transform: translateY(-100%);
+            height: 10rem;
+            border-bottom-left-radius: 0;
+            border-bottom-right-radius: 0;
+            background: rgba(255, 255, 255, 0.08);
+        }
+
+        .bottom {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 100%;
+            height: 11rem;
+            padding: 1.8rem;
+            background: #ffffff;
+            border-radius: 24px;
+            display: flex;
+            justify-content: center;
+            align-items: start;
+            flex-direction: column;
+            transition: all 0.7s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            z-index: 1;
+            border-bottom: 6px solid var(--accent-color);
+        }
+
+        .bottom h1 {
+            font-size: 1.1rem;
+            font-weight: 600;
+            color: #111;
+            margin-bottom: 0.6rem;
+            letter-spacing: 1.5px;
+        }
+
+        .bottom p {
+            font-size: 0.8rem;
+            color: #555;
+            line-height: 1.6;
+        }
+
+        .card:hover .bottom {
+            transform: translateY(0%);
+            border-top-left-radius: 0;
+            border-top-right-radius: 0;
+            box-shadow: 0 25px 50px rgba(0,0,0,0.6);
+        }
+
+        /* --- ACCENT CONFIG --- */
+        .card-codepen {
+            --accent-color: #00d2ff;
+            --accent-gradient: linear-gradient(45deg, #00d2ff, #3a7bd5);
+        }
+
+        .card-js {
+            --accent-color: #f7df1e;
+            --accent-gradient: linear-gradient(45deg, #f7df1e, #f39c12);
+        }
+
+        .card-css {
+            --accent-color: #ff0055;
+            --accent-gradient: linear-gradient(45deg, #ff0055, #ff5e62);
+        }

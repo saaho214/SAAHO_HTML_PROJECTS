@@ -1,0 +1,103 @@
+        @import url('https://fonts.googleapis.com/css2?family=Outfit:wght@300;500;700&display=swap');
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Outfit', sans-serif;
+        }
+
+        body {
+            width: 100%;
+            min-height: 100vh;
+            background: #0a0a0c;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .container {
+            width: 100%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 3rem;
+            padding: 40px;
+        }
+
+        .box {
+            position: relative;
+            width: 20rem;
+            height: 28rem;
+            background: rgba(255, 255, 255, 0.02);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 24px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 2.5rem;
+            color: #fff;
+            overflow: hidden;
+            cursor: pointer;
+            transition: border 0.4s;
+        }
+
+        /* Unique Border Colors */
+        .box-1 { border-color: rgba(0, 255, 157, 0.3); }
+        .box-2 { border-color: rgba(255, 214, 0, 0.3); }
+        .box-3 { border-color: rgba(188, 0, 255, 0.3); }
+
+        .box span {
+            position: absolute;
+            display: block;
+            width: 0;
+            height: 0;
+            border-radius: 50%;
+            transition: width 0.5s ease, height 0.5s ease;
+            transform: translate(-50%, -50%);
+            mix-blend-mode: difference; /* This creates the invert effect */
+            pointer-events: none;
+            z-index: 1;
+        }
+
+        /* Hover Reveal Shades */
+        .box-1 span { background: #00ff9d; box-shadow: 0 0 50px #00ff9d; }
+        .box-2 span { background: #ffd600; box-shadow: 0 0 50px #ffd600; }
+        .box-3 span { background: #bc00ff; box-shadow: 0 0 50px #bc00ff; }
+
+        .box:hover span {
+            width: 600px;
+            height: 600px;
+        }
+
+        .content {
+            position: relative;
+            z-index: 2;
+            text-align: center;
+        }
+
+        .content h2 {
+            font-size: 2rem;
+            font-weight: 700;
+            margin-bottom: 1.2rem;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+        }
+
+        .box-1 h2 { color: #00ff9d; }
+        .box-2 h2 { color: #ffd600; }
+        .box-3 h2 { color: #bc00ff; }
+
+        .content p {
+            font-size: 0.95rem;
+            line-height: 1.6;
+            color: rgba(255, 255, 255, 0.7);
+            font-weight: 300;
+        }
+
+        /* Invert text on hover via difference mode */
+        .box:hover .content p, 
+        .box:hover .content h2 {
+            mix-blend-mode: difference;
+        }
