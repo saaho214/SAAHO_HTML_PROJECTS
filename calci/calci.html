@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Calculator & Converter</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1 class="title">Calculator & Converter</h1>
+            <div class="theme-selector">
+                <button class="theme-btn" data-theme="light" title="Light Theme"></button>
+                <button class="theme-btn" data-theme="dark" title="Dark Theme"></button>
+                <button class="theme-btn" data-theme="purple" title="Purple Theme"></button>
+            </div>
+        </div>
+
+        <div class="display">
+            <div class="display-input"></div>
+            <div class="display-output">0</div>
+        </div>
+
+        <div class="tabs">
+            <div class="tab active" data-tab="calculator">Calculator</div>
+            <div class="tab" data-tab="converter">Converter</div>
+        </div>
+
+        <div class="content">
+            <div class="tab-content active" id="calculator">
+                <div class="calculator-grid">
+                    <button class="btn clear" data-action="clear">C</button>
+                    <button class="btn" data-action="backspace">⌫</button>
+                    <button class="btn operator" data-action="operator">%</button>
+                    <button class="btn operator" data-action="operator">÷</button>
+                    <button class="btn" data-action="number">7</button>
+                    <button class="btn" data-action="number">8</button>
+                    <button class="btn" data-action="number">9</button>
+                    <button class="btn operator" data-action="operator">×</button>
+                    <button class="btn" data-action="number">4</button>
+                    <button class="btn" data-action="number">5</button>
+                    <button class="btn" data-action="number">6</button>
+                    <button class="btn operator" data-action="operator">-</button>
+                    <button class="btn" data-action="number">1</button>
+                    <button class="btn" data-action="number">2</button>
+                    <button class="btn" data-action="number">3</button>
+                    <button class="btn operator" data-action="operator">+</button>
+                    <button class="btn" data-action="number">0</button>
+                    <button class="btn" data-action="decimal">.</button>
+                    <button class="btn equal" data-action="calculate">=</button>
+                </div>
+            </div>
+
+            <div class="tab-content" id="converter">
+                <div class="converter">
+                    <input type="number" class="converter-input" id="converter-input" placeholder="Enter value">
+                    <select class="converter-select" id="converter-from">
+                        <option value="meters">Meters</option>
+                        <option value="kilometers">Kilometers</option>
+                        <option value="miles">Miles</option>
+                        <option value="feet">Feet</option>
+                    </select>
+                    <select class="converter-select" id="converter-to">
+                        <option value="meters">Meters</option>
+                        <option value="kilometers">Kilometers</option>
+                        <option value="miles">Miles</option>
+                        <option value="feet">Feet</option>
+                    </select>
+                    <button class="btn equal" onclick="convert()">Convert</button>
+                    <div id="converter-result" style="text-align: center; font-size: 1.25rem; margin-top: 10px;"></div>
+                </div>
+            </div>
+
+            <div class="history-section">
+                <div class="history-title">History</div>
+                <div id="history-list"></div>
+                <div class="clear-history" onclick="clearHistory()">Clear History</div>
+            </div>
+        </div>
+    </div>
+
+<script src="script.js"></script>
+</body>
+</html>

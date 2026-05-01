@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Balloon Shooting Game - 5 Levels</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <!-- Login Screen -->
+    <div id="loginScreen">
+        <div class="login-container">
+            <h1>🎈 Balloon Shooter</h1>
+            <input type="text" id="username" placeholder="Enter your username" required>
+            <button id="startButton">Start Game</button>
+        </div>
+    </div>
+
+    <!-- Level Selection Screen -->
+    <div id="levelSelection">
+        <div class="level-selection-container">
+            <h2>Select Level</h2>
+            <div class="level-grid" id="levelGrid">
+                <!-- Levels will be generated here -->
+            </div>
+        </div>
+    </div>
+
+    <!-- Game Screen -->
+    <div id="gameScreen">
+        <div class="game-header">
+            <div class="user-info">
+                <span>👤</span>
+                <span id="displayUsername"></span>
+            </div>
+            <div class="level-display">
+                Level: <span id="level">1</span>
+            </div>
+            <div class="score-display">
+                Score: <span id="score">0</span>
+            </div>
+            <div class="timer-display">
+                Time: <span id="timer">30</span>s
+            </div>
+            <div class="controls">
+                <button class="control-btn" id="muteButton">🔊</button>
+                <button class="control-btn" id="pauseButton">⏸️</button>
+            </div>
+        </div>
+        <div class="game-area" id="gameArea">
+            <div class="gun">
+                <div class="gun-barrel"></div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Performance Screen -->
+    <div id="performanceScreen">
+        <div class="performance-container">
+            <h2>🏆 Level Complete!</h2>
+            <div class="user-info" style="display: inline-flex; margin-bottom: 20px;">
+                <span>👤</span>
+                <span id="performanceUsername"></span>
+            </div>
+            
+            <div class="stats-container">
+                <div class="stat-box">
+                    <div>Level</div>
+                    <div class="stat-value" id="levelCompleted">1</div>
+                </div>
+                <div class="stat-box">
+                    <div>Score</div>
+                    <div class="stat-value" id="levelScore">0</div>
+                </div>
+                <div class="stat-box">
+                    <div>Objects Hit</div>
+                    <div class="stat-value" id="objectsHit">0</div>
+                </div>
+            </div>
+            
+            <div class="chart-container">
+                <div class="chart-title">Objects Hit vs Required</div>
+                <div class="chart-bar" id="hitBar" style="height: 0; left: 30%;">
+                    <div class="chart-label">Hit: 0</div>
+                </div>
+                <div class="chart-bar" id="requiredBar" style="height: 0; left: 60%;">
+                    <div class="chart-label">Required: 28</div>
+                </div>
+            </div>
+            
+            <div class="stars-container" id="starsContainer"></div>
+            
+            <div>
+                <button id="nextLevelButton">Next Level</button>
+                <button id="levelSelectButton">Level Select</button>
+            </div>
+        </div>
+    </div>
+<script src="script.js"></script>
+
+</body>
+</html>
