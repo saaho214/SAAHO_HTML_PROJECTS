@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="./style.css">
+    <title>Dynamic Card Gallery</title>
+</head>
+<body>
+
+    <header>
+        <div class="controls">
+            <input type="text" id="searchBar" placeholder="Search designs...">
+            <div class="filters">
+                <button class="filter-btn active" data-filter="all">All</button>
+                <button class="filter-btn" data-filter="ui">UI Design</button>
+                <button class="filter-btn" data-filter="branding">Branding</button>
+                <button class="filter-btn" data-filter="app">App</button>
+            </div>
+        </div>
+    </header>
+
+    <!-- JavaScript will fill this container -->
+    <div class="container" id="cardContainer"></div>
+
+    <script src="script.js"></script>
+</body>
+</html>
