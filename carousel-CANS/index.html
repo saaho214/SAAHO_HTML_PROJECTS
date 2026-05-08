@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <link rel="stylesheet" href="style.css" />
+  </head>
+  <body>
+    <header>
+      <div>SAAHO</div>
+      <nav>
+        <ul>
+          <li>HOME</li>
+          <li>MAIN</li>
+          <li>CONTACT</li>
+        </ul>
+      </nav>
+    </header>
+
+    <div class="carousel">
+      <!-- Replace the .list div in your HTML -->
+      <div class="list">
+        <div class="item active" style="--background: #ea3d41">
+          <div class="content">
+            <h1 class="fruit-name">Strawberry</h1>
+            <div class="details">
+              <h2>RED DELIGHT</h2>
+              <p>Naturally sweet, vibrant with Vitamin C.</p>
+            </div>
+          </div>
+          <img src="img/fruit_strawberry.png" class="fruit" />
+        </div>
+
+        <div class="item" style="--background: #2d5643">
+          <div class="content">
+            <h1 class="fruit-name">Avocado</h1>
+            <div class="details">
+              <h2>CREAMY MILD</h2>
+              <p>Rich in healthy fats and silky texture.</p>
+            </div>
+          </div>
+          <img src="img/fruit_avocado.png" class="fruit" />
+        </div>
+
+        <div class="item hidden" style="--background: #e7a043">
+          <div class="content">
+            <h1 class="fruit-name">Orange</h1>
+            <div class="details">
+              <h2>CITRUS BURST</h2>
+              <p>Zesty, tangy, and sunshine-bright.</p>
+            </div>
+          </div>
+          <img src="img/fruit_orange.png" class="fruit" />
+        </div>
+      </div>
+      <div class="leaves"></div>
+      <div class="mockup"></div>
+      <div class="shadow"></div>
+      <div class="arrow">
+        <button id="prev"><</button>
+        <button id="next">></button>
+      </div>
+    </div>
+    <script src="app.js"></script>
+  </body>
+</html>
