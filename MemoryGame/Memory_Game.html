@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Memory Match Game</title>
+<link rel="stylesheet" href="assets/style.css">
+</head>
+<body>
+    <div class="game-container">
+        <h1>Memory Match</h1>
+        
+        <div class="stats">
+            <div class="stat-item">
+                <div class="stat-label">Time</div>
+                <div class="stat-value" id="timer">00:00</div>
+            </div>
+            <div class="stat-item">
+                <div class="stat-label">Moves</div>
+                <div class="stat-value" id="moves">0</div>
+            </div>
+            <div class="stat-item">
+                <div class="stat-label">Matches</div>
+                <div class="stat-value" id="matches">0/8</div>
+            </div>
+        </div>
+
+        <div class="progress-bar">
+            <div class="progress-fill" id="progress" style="width: 0%"></div>
+        </div>
+
+        <div class="deck-selector">
+            <div class="deck-option active" data-deck="animals">Animals</div>
+            <div class="deck-option" data-deck="emojis">Emojis</div>
+            <div class="deck-option" data-deck="flags">Flags</div>
+		<div class="deck-option" data-deck="flags">Flags</div>
+<div class="deck-option" data-deck="electronics">electronics</div>
+<div class="deck-option" data-deck="food">food</div>
+<div class="deck-option" data-deck="fruit">fruit</div>
+<div class="deck-option" data-deck="flower">flower</div>
+<div class="deck-option" data-deck="vehicles">vehicles</div>
+<div class="deck-option" data-deck="buildings">buildings</div>
+<div class="deck-option" data-deck="moons">moons</div>
+<div class="deck-option" data-deck="hearts">hearts</div>
+<div class="deck-option" data-deck="symbols">symbols</div>
+<div class="deck-option" data-deck="colors">colors</div>
+<div class="deck-option" data-deck="signs">signs</div>
+
+            <label class="deck-option custom-upload">
+                <input type="file" id="customImages" multiple accept="image/*">
+                Custom Images
+            </label>
+        </div>
+
+        <div class="game-board" id="gameBoard"></div>
+
+        <div class="controls">
+            <button class="btn" onclick="resetGame()">New Game</button>
+            <button class="btn" onclick="showPreview()">Preview</button>
+        </div>
+    </div>
+
+    <div class="game-complete" id="gameComplete">
+        <h2>Congratulations!</h2>
+        <p>Time: <span id="finalTime">00:00</span></p>
+        <p>Moves: <span id="finalMoves">0</span></p>
+        <button class="btn" onclick="resetGame()">Play Again</button>
+    </div>
+<script src="assets/script.js"></script>
+</body>
+</html>
