@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Space Explorer</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.9.1/gsap.min.js"></script>
+<link rel="stylesheet" href="assets/style.css">
+
+</head>
+<body>
+
+    <header id="main-header">
+        <div class="logo">space.edu</div>
+        <nav>
+            <a href="#">Planets</a>
+            <a href="#">Trailer</a>
+            <a href="#">Tickets</a>
+            <a href="#">Blog</a>
+        </nav>
+        <button class="button-primary">Enroll</button>
+    </header>
+
+    <!-- Homepage Info Section -->
+    <div class="homepage-info" id="homepage-info">
+        <h2 id="homepage-subtitle">The Red Planet</h2>
+        <h1 id="homepage-title">Mars</h1>
+        <p id="homepage-description">Mars is the fourth planet from the Sun and the second-smallest planet in the Solar System. It is often referred to as the Red Planet because of the iron oxide prevalent on its surface.</p>
+    </div>
+
+    <!-- This is where the main 3D scene will be rendered -->
+    <canvas id="scene-canvas"></canvas>
+
+    <!-- Planet Details Overlay (now acts as a new page) -->
+    <div id="planet-details-overlay" class="planet-details-overlay">
+        <div class="planet-details-page">
+            <button class="close-button" id="close-details-button">&times;</button>
+            
+            <!-- New container for the 3D model -->
+            <div id="planet-model-container"></div>
+            
+            <div class="details-content">
+                <h1 id="detail-planet-title"></h1>
+                <ul id="detail-planet-points"></ul>
+            </div>
+        </div>
+    </div>
+
+    <!-- Controls for navigation -->
+    <div class="controls" id="controls">
+        <div class="nav-button" id="prev-button">&#10094;</div>
+        <div class="nav-button" id="next-button">&#10095;</div>
+    </div>
+
+<script src="assets/script.js"></script>
+</body>
+</html>

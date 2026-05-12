@@ -1,0 +1,279 @@
+        body {
+            margin: 0;
+            overflow: hidden;
+            background-color: #0d1117;
+            font-family: 'Poppins', sans-serif;
+            color: #fff;
+            position: relative;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+
+        /* The main 3D canvas for the homepage */
+        #scene-canvas {
+            display: block;
+            position: absolute;
+            top: 55%;
+            left: 50%;
+            max-height: 550px;
+            transform: translate(-50%, -50%);
+            width: 90vw;
+            padding: 30px;
+            max-width: 1200px;
+            height: auto;
+            background: rgba(0, 0, 0, 0.2);
+            box-sizing: border-box;
+            border-radius: 30px;
+            border: 2px solid #87ceeb;
+            z-index: 5; /* Lower z-index so the overlay can be on top */
+        }
+
+        /* --- Header --- */
+        header {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 90%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1.5rem 5%;
+            z-index: 10;
+            transition: opacity 0.5s ease, transform 0.5s ease;
+        }
+        header.hidden {
+            opacity: 0;
+            transform: translateY(-50px);
+            pointer-events: none;
+        }
+        .logo {
+            font-size: 2rem;
+            font-weight: 700;
+            color: #fff;
+        }
+        nav a {
+            color: #fff;
+            text-decoration: none;
+            font-weight: 600;
+            margin-left: 2.5rem;
+            opacity: 0.8;
+            transition: opacity 0.3s ease;
+        }
+        nav a:hover {
+            opacity: 1;
+        }
+        .button-primary {
+            background: rgba(255, 255, 255, 0.2);
+            color: #fff;
+            border: none;
+            padding: 0.8rem 1.8rem;
+            border-radius: 50px;
+            font-weight: 600;
+            cursor: pointer;
+            backdrop-filter: blur(5px);
+            transition: background 0.3s ease;
+        }
+        .button-primary:hover {
+            background: rgba(255, 255, 255, 0.4);
+        }
+
+        /* --- Homepage Info Section --- */
+        .homepage-info {
+            position: absolute;
+            top: 20%;
+            left: 30%;
+            transform: translate(-50%, -50%);
+            z-index: 10;
+            text-align: center;
+            max-width: 600px;
+            animation: fadeIn 1s forwards;
+            transition: opacity 0.5s ease;
+        }
+        .homepage-info.hidden {
+            opacity: 0;
+            pointer-events: none;
+        }
+        .homepage-info h2 {
+            font-size: 1.5rem;
+            text-transform: uppercase;
+            font-weight: 400;
+            letter-spacing: 3px;
+        }
+        .homepage-info h1 {
+            font-size: 4rem;
+            line-height: 1;
+            margin: 0.5rem 0;
+            text-transform: uppercase;
+            font-weight: 700;
+        }
+        .homepage-info p {
+            font-size: 1rem;
+            line-height: 1.6;
+        }
+
+        /* --- Controls (Moved to rightbottom) --- */
+        .controls {
+            position: absolute;
+            bottom: 15%;
+            right: 15%;
+            z-index: 10;
+            display: flex;
+            flex-direction: row;
+            gap: 20px;
+            transition: opacity 0.5s ease, transform 0.5s ease;
+        }
+        .controls.hidden {
+            opacity: 0;
+            transform: translateY(50px);
+            pointer-events: none;
+        }
+        .nav-button {
+            background: rgba(255, 255, 255, 0.1);
+            border: 2px solid rgba(255, 255, 255, 0.2);
+            color: #fff;
+            font-size: 1.5rem;
+            width: 50px;
+            height: 50px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 50%;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        .nav-button:hover {
+            background: rgba(255, 255, 255, 0.3);
+            transform: scale(1.1);
+        }
+
+        /* --- Planet Details Overlay --- */
+        .planet-details-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.7);
+            backdrop-filter: blur(20px);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            opacity: 0;
+            visibility: hidden;
+            transition: opacity 0.5s ease;
+            z-index: 20;
+        }
+        .planet-details-overlay.active {
+            opacity: 1;
+            visibility: visible;
+        }
+        .planet-details-page {
+            text-align: center;
+            max-width: 90vw; /* Increased max-width */
+            width: 1200px;
+            padding: 2rem;
+            position: relative;
+            animation: fadeZoomIn 0.8s forwards;
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 20px;
+            display: flex; /* Use flexbox for layout */
+            flex-direction: column;
+            align-items: center;
+            gap: 2rem; /* Spacing between model and details */
+        }
+        
+        @media (min-width: 768px) {
+            .planet-details-page {
+                flex-direction: row; /* Side-by-side on larger screens */
+                text-align: left;
+            }
+            .planet-details-page .details-content {
+                flex: 1;
+            }
+            .planet-details-page .details-content h1 {
+                text-align: left;
+            }
+        }
+
+        /* Container for the new 3D model */
+        #planet-model-container {
+            width: 400px;
+            height: 400px;
+            position: relative;
+            border-radius: 10px;
+            overflow: hidden;
+            background: rgba(0, 0, 0, 0.3);
+            flex-shrink: 0; /* Prevents the container from shrinking */
+        }
+        
+        #planet-model-container canvas {
+            display: block;
+            width: 100%;
+            height: 100%;
+        }
+
+        .details-content {
+            flex: 1; /* Allows the content to fill available space */
+            text-align: center;
+        }
+        @media (min-width: 768px) {
+            .details-content {
+                text-align: left;
+            }
+        }
+        
+        .close-button {
+            position: absolute;
+            top: 15px;
+            right: 15px;
+            background: transparent;
+            border: none;
+            color: #fff;
+            font-size: 2rem;
+            cursor: pointer;
+            transition: transform 0.2s ease;
+        }
+        .close-button:hover {
+            transform: rotate(90deg);
+        }
+        .planet-details-page h1 {
+            font-size: 2.5rem; /* Adjusted for details page */
+            font-weight: 700;
+            margin-bottom: 0.5rem;
+            letter-spacing: 5px;
+            text-transform: uppercase;
+        }
+        .planet-details-page ul {
+            list-style: none;
+            padding: 0;
+            text-align: left;
+            margin: 2rem auto;
+            max-width: 500px;
+        }
+        .planet-details-page ul li {
+            font-size: 1.2rem;
+            line-height: 1.8;
+            margin-bottom: 0.8rem;
+            position: relative;
+            padding-left: 2rem;
+            opacity: 0;
+            transform: translateY(20px);
+        }
+        .planet-details-page ul li::before {
+            content: '•';
+            color: #87ceeb;
+            position: absolute;
+            left: 0;
+            font-size: 2rem;
+            line-height: 1;
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        @keyframes fadeZoomIn {
+            0% { opacity: 0; transform: scale(0.8); }
+            100% { opacity: 1; transform: scale(1); }
+        }
