@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Advanced Biometric Terminal</title>
+<link rel="stylesheet" href="assests/style.css">
+</head>
+<body>
+
+<div class="vault-interface" id="system">
+    <h2 id="main-title">SECURE TERMINAL</h2>
+    
+    <div class="scan-wrapper">
+        <div class="data-panel left-p">
+            SYS_LOAD: 44%<br>BIT_CHECK: OK<br>PULSE: DETECTED
+        </div>
+
+        <svg class="progress-ring" width="180" height="180">
+            <circle class="progress-ring__circle" stroke-width="4" fill="transparent" r="70" cx="90" cy="90"/>
+        </svg>
+
+        <div class="thumb-pad" id="pad" onmousedown="startScan()" onmouseup="resetScan()" onmouseleave="resetScan()">
+            <div class="laser"></div>
+            <div class="lines"></div>
+        </div>
+
+        <div class="data-panel right-p">
+            LATENCY: 12ms<br>ENCRYPT: RSA-4k<br>MATCH: PENDING
+        </div>
+    </div>
+
+    <div class="status-msg" id="msg">AWAITING BIOMETRICS</div>
+    
+    <div id="hidden-content" style="display:none; margin-top:20px; padding:15px; background: rgba(0,255,136,0.1); border: 1px solid var(--green);">
+        <span style="color:var(--green)">✓ HANDSHAKE SUCCESSFUL</span><br>
+        <small style="color:white; opacity:0.7">Redirecting to Secure Server...</small>
+    </div>
+</div>
+
+<script src="assests/script.js"></script>
+
+</body>
+</html>
