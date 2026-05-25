@@ -1,0 +1,507 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Glorifying Controller Slider - Premium Edition</title>
+
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&family=Rajdhani:wght@500;700&display=swap');
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    background: #060913;
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    overflow: hidden;
+    font-family: 'Rajdhani', sans-serif;
+    transition: background 0.8s ease;
+    position: relative;
+}
+
+/* DECORATIVE BACKGROUND GLOWSS */
+body::before, body::after {
+    content: '';
+    position: absolute;
+    width: 600px;
+    height: 600px;
+    border-radius: 50%;
+    filter: blur(150px);
+    opacity: 0.15;
+    z-index: 0;
+    transition: background 0.8s ease;
+}
+body::before {
+    top: -10%;
+    left: -10%;
+    background: var(--theme-color, #00aa55);
+}
+body::after {
+    bottom: -10%;
+    right: -10%;
+    background: var(--theme-color, #00aa55);
+}
+
+/* MAIN CONTAINER (The Store UI Frame) */
+.slider-box {
+    position: relative;
+    z-index: 1;
+    width: 1100px;
+    height: 600px;
+    border-radius: 24px;
+    border: 2px solid rgba(255, 255, 255, 0.1);
+    display: flex;
+    overflow: hidden;
+    background: linear-gradient(135deg, rgba(10, 15, 30, 0.7) 0%, rgba(5, 7, 12, 0.9) 100%);
+    backdrop-filter: blur(25px);
+    box-shadow: 
+        0 30px 60px rgba(0, 0, 0, 0.8),
+        inset 0 1px 0 rgba(255, 255, 255, 0.2),
+        0 0 40px rgba(var(--theme-rgb, 0, 170, 85), 0.15);
+    transition: box-shadow 0.8s ease;
+}
+
+/* TOP HEADER NAV (Matching the Ad layout) */
+.store-header {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 70px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0 40px;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+    z-index: 10;
+}
+
+.brand-logo {
+    font-family: 'Orbitron', sans-serif;
+    color: #fff;
+    font-size: 1.5rem;
+    font-weight: 700;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.brand-logo span {
+    color: var(--theme-color, #00aa55);
+    transition: color 0.8s ease;
+}
+
+.nav-links {
+    display: flex;
+    gap: 30px;
+}
+
+.nav-links a {
+    color: rgba(255, 255, 255, 0.6);
+    text-decoration: none;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    font-size: 0.9rem;
+    transition: 0.3s;
+}
+
+.nav-links a:hover, .nav-links a.active {
+    color: #fff;
+    text-shadow: 0 0 10px rgba(255,255,255,0.5);
+}
+
+/* LEFT SIDE - HERO SHOWCASE */
+.left-side {
+    flex: 1.3;
+    position: relative;
+    overflow: hidden;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding-top: 70px; /* offset for header */
+}
+
+/* BLUR BACKGROUND REFLECTIONS */
+.blur-prev, .blur-next {
+    position: absolute;
+    width: 320px;
+    opacity: 0.2;
+    filter: blur(40px);
+    transition: all 0.8s cubic-bezier(0.25, 1, 0.5, 1);
+    z-index: 1;
+    pointer-events: none;
+}
+
+.blur-prev { top: 10%; left: -10%; transform: rotate(-15deg); }
+.blur-next { bottom: 10%; right: -5%; transform: rotate(15deg); }
+
+/* GLOW RING BACKGROUND EFFECT */
+.glow-ring {
+    position: absolute;
+    width: 450px;
+    height: 450px;
+    border-radius: 50%;
+    background: radial-gradient(circle, rgba(var(--theme-rgb, 0, 170, 85), 0.2) 0%, transparent 70%);
+    z-index: 1;
+    transform: translate(-50%, -50%);
+    top: 55%;
+    left: 50%;
+    pointer-events: none;
+}
+
+/* MAIN IMAGE HERO DISPLAY */
+.main-controller {
+    position: absolute;
+    width: 420px;
+    z-index: 3;
+    top: 55%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    filter: drop-shadow(0 20px 50px rgba(0,0,0,0.7));
+}
+
+.particle {
+    position: absolute;
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: var(--theme-color, #00aa55);
+    pointer-events: none;
+    opacity: 0;
+    z-index: 2;
+}
+
+/* RIGHT SIDE - CART PANEL */
+.right-side {
+    flex: 1;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 90px 40px 40px 20px;
+}
+
+.info-card {
+    width: 100%;
+    height: 100%;
+    padding: 35px;
+    border-radius: 20px;
+    background: rgba(255, 255, 255, 0.03);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    color: white;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    box-shadow: inset 0 0 20px rgba(255, 255, 255, 0.02);
+}
+
+.info-card h2 {
+    font-family: 'Orbitron', sans-serif;
+    font-size: 1.8rem;
+    font-weight: 700;
+    letter-spacing: 1px;
+    line-height: 1.2;
+}
+
+.price {
+    color: #ffd700;
+    font-family: 'Orbitron', sans-serif;
+    font-size: 1.6rem;
+    font-weight: 700;
+    margin: 15px 0;
+    text-shadow: 0 0 15px rgba(255, 215, 0, 0.3);
+}
+
+.description {
+    color: rgba(255, 255, 255, 0.6);
+    line-height: 1.6;
+    margin-bottom: 30px;
+    font-size: 1.1rem;
+}
+
+/* THUMBNAIL VARIANT CONTAINERS */
+.variant-section-title {
+    font-size: 0.85rem;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    color: rgba(255, 255, 255, 0.4);
+    margin-bottom: 12px;
+}
+
+.preview-buttons {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 14px;
+    margin-bottom: 35px;
+}
+
+.preview-btn {
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+    overflow: hidden;
+    cursor: pointer;
+    border: 2px solid rgba(255, 255, 255, 0.15);
+    background: rgba(0, 0, 0, 0.4);
+    transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    padding: 5px;
+}
+
+.preview-btn img {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+}
+
+.preview-btn:hover, .preview-btn.active {
+    transform: scale(1.15);
+    border-color: var(--theme-color, #00aa55);
+    box-shadow: 0 0 20px rgba(var(--theme-rgb, 0, 170, 85), 0.4);
+}
+
+/* ADD TO CART ACTION BUTTON */
+.cta-button {
+    width: 100%;
+    padding: 16px;
+    border-radius: 12px;
+    border: none;
+    background: linear-gradient(90deg, var(--theme-color, #00aa55) 0%, rgba(var(--theme-rgb, 0, 170, 85), 0.7) 100%);
+    color: white;
+    font-family: 'Orbitron', sans-serif;
+    font-weight: 700;
+    font-size: 1.1rem;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    box-shadow: 0 10px 25px rgba(var(--theme-rgb, 0, 170, 85), 0.3);
+}
+
+.cta-button:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 15px 30px rgba(var(--theme-rgb, 0, 170, 85), 0.5);
+    filter: brightness(1.1);
+}
+
+/* ========================================= */
+/* ENGINE ANIMATIONS */
+/* ========================================= */
+
+@keyframes arcOut {
+    0% { transform: translate(-50%, -50%) scale(1) rotate(0deg); opacity: 1; filter: blur(0px); }
+    100% { transform: translate(-150%, 50%) scale(0.5) rotate(-30deg); opacity: 0; filter: blur(10px); }
+}
+
+@keyframes heroEntry {
+    0% { transform: translate(-50%, -50%) scale(0.5) rotate(45deg); opacity: 0; filter: blur(15px); }
+    60% { transform: translate(-50%, -50%) scale(1.05) rotate(-5deg); opacity: 1; filter: blur(0px); }
+    100% { transform: translate(-50%, -50%) scale(1) rotate(0deg); }
+}
+
+@keyframes particleFly {
+    0% { opacity: 1; transform: translate(0,0) scale(1); }
+    100% { opacity: 0; transform: translate(var(--x), var(--y)) scale(0); }
+}
+</style>
+</head>
+
+<body>
+
+<div class="slider-box" id="sliderBox">
+
+    <div class="store-header">
+        <div class="brand-logo">Level Up <span>Customs</span></div>
+        <nav class="nav-links">
+            <a href="#" class="active">Store</a>
+            <a href="#">Builder</a>
+            <a href="#">Support</a>
+            <a href="#">My Cart</a>
+        </nav>
+    </div>
+
+    <div class="left-side" id="leftSide">
+        <img id="blurPrev" class="blur-prev" src="">
+        <img id="blurNext" class="blur-next" src="">
+        <div class="glow-ring" id="glowRing"></div>
+        <img id="mainController" class="main-controller" src="">
+    </div>
+
+    <div class="right-side">
+        <div class="info-card">
+            <div>
+                <h2 id="title"></h2>
+                <div class="price" id="price"></div>
+                <div class="description" id="desc"></div>
+            </div>
+
+            <div>
+                <div class="variant-section-title">Select Edition</div>
+                <div class="preview-buttons" id="previewButtons"></div>
+                <button class="cta-button">Add To Cart</button>
+            </div>
+        </div>
+    </div>
+
+</div>
+
+<script>
+const controllers = [
+    {
+        title: "Algae Dragon DualShock 4",
+        price: "INR59.99",
+        desc: "Precision and comfort fused with the organic bio-luminescent Algae Dragon design ecosystem.",
+        img: "images/img1.png",
+        color: "#00aa55",
+        rgb: "0, 170, 85"
+    },
+    {
+        title: "Rosa Dragon DualShock 4",
+        price: "INR64.99",
+        desc: "Bright, striking neon pink armor dynamics engineered for elite modern setups.",
+        img: "images/img2.png",
+        color: "#ff4da6",
+        rgb: "255, 77, 166"
+    },
+    {
+        title: "Azure Dragon DualShock 4",
+        price: "INR49.99",
+        desc: "Cool sub-zero blue aesthetics paired with precise haptic gaming immersion features.",
+        img: "images/img3.png",
+        color: "#3399ff",
+        rgb: "51, 153, 255"
+    },
+    {
+        title: "Ember Dragon DualShock 4",
+        price: "INR79.99",
+        desc: "Fiery magma Core design built to channel intense competitive execution energy.",
+        img: "images/img4.png",
+        color: "#ff6600",
+        rgb: "255, 102, 0"
+    },
+    {
+        title: "Aqua Dragon DualShock 4",
+        price: "INR69.99",
+        desc: "Deep ocean abyss visual accents mixed with tactile control comfort configurations.",
+        img: "images/img5.png",
+        color: "#00cccc",
+        rgb: "0, 204, 204"
+    },
+    {
+        title: "Forest Dragon DualShock 4",
+        price: "INR74.99",
+        desc: "Primal hunting-ground styling profiles optimizing elite mechanical responsiveness.",
+        img: "images/img6.png",
+        color: "#66cc33",
+        rgb: "102, 204, 51"
+    }
+];
+
+let currentIndex = 0;
+
+const mainController = document.getElementById("mainController");
+const blurPrev = document.getElementById("blurPrev");
+const blurNext = document.getElementById("blurNext");
+const titleEl = document.getElementById("title");
+const priceEl = document.getElementById("price");
+const descEl = document.getElementById("desc");
+const previewButtons = document.getElementById("previewButtons");
+const leftSide = document.getElementById("leftSide");
+const sliderBox = document.getElementById("sliderBox");
+
+function getPrevIndex(index) { return (index - 1 + controllers.length) % controllers.length; }
+function getNextIndex(index) { return (index + 1) % controllers.length; }
+
+function createParticles(color) {
+    for(let i=0; i<15; i++) {
+        const particle = document.createElement("div");
+        particle.className = "particle";
+        particle.style.left = "50%";
+        particle.style.top = "55%";
+        particle.style.background = color;
+        particle.style.setProperty("--x", `${(Math.random() - 0.5) * 400}px`);
+        particle.style.setProperty("--y", `${(Math.random() - 0.5) * 400}px`);
+        particle.style.animation = `particleFly ${0.6 + Math.random() * 0.6}s ease-out forwards`;
+        leftSide.appendChild(particle);
+        setTimeout(() => particle.remove(), 1200);
+    }
+}
+
+function updateThemeColors(item) {
+    document.body.style.setProperty('--theme-color', item.color);
+    document.body.style.setProperty('--theme-rgb', item.rgb);
+    sliderBox.style.boxShadow = `0 30px 60px rgba(0, 0, 0, 0.8), inset 0 1px 0 rgba(255, 255, 255, 0.2), 0 0 50px rgba(${item.rgb}, 0.25)`;
+}
+
+function showController(index) {
+    if(index === currentIndex) return;
+
+    // Active button tracking accent
+    const buttons = document.querySelectorAll('.preview-btn');
+    buttons.forEach((b, idx) => {
+        if(idx === index) b.classList.add('active');
+        else b.classList.remove('active');
+    });
+
+    /* ANIMATION PHASE OUT */
+    mainController.style.animation = "arcOut 0.5s ease-in forwards";
+    createParticles(controllers[index].color);
+
+    /* INCOMING ASSET POPULATION */
+    const incoming = document.createElement("img");
+    incoming.src = controllers[index].img;
+    incoming.className = "main-controller";
+    incoming.style.animation = "heroEntry 0.7s cubic-bezier(0.175, 0.885, 0.32, 1.2) forwards";
+    leftSide.appendChild(incoming);
+
+    setTimeout(() => {
+        mainController.src = controllers[index].img;
+        mainController.style.animation = "";
+        incoming.remove();
+
+        blurPrev.src = controllers[getPrevIndex(index)].img;
+        blurNext.src = controllers[getNextIndex(index)].img;
+
+        titleEl.textContent = controllers[index].title;
+        priceEl.textContent = controllers[index].price;
+        descEl.textContent = controllers[index].desc;
+        
+        updateThemeColors(controllers[index]);
+        currentIndex = index;
+    }, 500);
+}
+
+/* RENDER SELECTION UI MODULES */
+controllers.forEach((ctrl, i) => {
+    const btn = document.createElement("div");
+    btn.className = "preview-btn";
+    if(i === 0) btn.classList.add('active');
+
+    const img = document.createElement("img");
+    img.src = ctrl.img;
+    btn.appendChild(img);
+
+    btn.addEventListener("click", () => showController(i));
+    previewButtons.appendChild(btn);
+});
+
+/* APP INITIALIZATION */
+mainController.src = controllers[0].img;
+blurPrev.src = controllers[getPrevIndex(0)].img;
+blurNext.src = controllers[getNextIndex(0)].img;
+titleEl.textContent = controllers[0].title;
+priceEl.textContent = controllers[0].price;
+descEl.textContent = controllers[0].desc;
+updateThemeColors(controllers[0]);
+</script>
+
+</body>
+</html>
