@@ -1,0 +1,459 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>JuiceCo - The Freshest Juices</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary-bg-color: #ff6a6a;
+            --secondary-bg-color: #f7b731;
+            --text-color: #2c3e50;
+        }
+
+        /* --- General Styles --- */
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Poppins', sans-serif;
+        }
+
+        body {
+            height: 100vh;
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+            background: linear-gradient(135deg, var(--primary-bg-color), var(--secondary-bg-color));
+            transition: background 0.8s ease-in-out;
+        }
+
+        /* --- Header --- */
+        header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 2rem 5%;
+            z-index: 10;
+        }
+
+        .logo {
+            font-size: 2rem;
+            font-weight: 700;
+            color: #fff;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.1);
+        }
+
+        nav a {
+            color: #fff;
+            text-decoration: none;
+            font-weight: 600;
+            margin-left: 2.5rem;
+            opacity: 0.8;
+            transition: opacity 0.3s ease;
+        }
+
+        nav a:hover {
+            opacity: 1;
+        }
+
+        .shop-button {
+            background: rgba(255, 255, 255, 0.2);
+            color: #fff;
+            border: none;
+            padding: 0.8rem 1.8rem;
+            border-radius: 50px;
+            font-weight: 600;
+            cursor: pointer;
+            backdrop-filter: blur(5px);
+            transition: background 0.3s ease;
+        }
+        
+        .shop-button:hover {
+            background: rgba(255, 255, 255, 0.4);
+        }
+
+        /* --- Main Content --- */
+        .main-container {
+            flex-grow: 1;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0 5%;
+            position: relative;
+        }
+
+        .product-info {
+            max-width: 45%;
+            color: #fff;
+            text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.1);
+            animation: fadeIn 1s forwards;
+            transition: opacity 0.5s ease;
+        }
+
+        .product-info h1 {
+            font-size: 4rem;
+            line-height: 1.1;
+            margin-bottom: 1rem;
+        }
+
+        .product-info p {
+            font-size: 1.2rem;
+            line-height: 1.6;
+        }
+
+        .main-bottle-display {
+            width: 45%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            position: relative;
+            z-index: 5;
+        }
+        
+        #main-bottle {
+            max-width: 100%;
+            height: auto;
+            transform: scale(1.2) rotate(-15deg);
+            filter: drop-shadow(0 10px 15px rgba(0, 0, 0, 0.1));
+            transition: transform 0.5s cubic-bezier(0.68, -0.55, 0.27, 1.55);
+        }
+
+        /* --- Thematic Elements --- */
+        .theme-element {
+            position: absolute;
+            opacity: 0;
+            animation: themeFadeIn 1s forwards;
+        }
+
+        .theme-element.leaf-left {
+    bottom: 70%;
+    right: 75%;
+    width: 40%;
+            transform: scale(0.8) rotate(30deg);
+        }
+
+        .theme-element.leaf-right {
+                      bottom: 60%;
+    right: 20%;
+    width: 30%;
+            transform: scale(1) rotate(-45deg);
+        }
+
+        .theme-element.slice-bottom {
+                 top: 80%;
+    left: 47%;
+    width: 40%;
+            transform: scale(0.9) rotate(15deg);
+        }
+
+        /* --- Bottom Controls --- */
+        .controls {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 2rem;
+            padding: 4rem 0%;
+            z-index: 10;
+        }
+
+        .bottle-trigger {
+            width: 60px;
+            height: 60px;
+            cursor: pointer;
+            opacity: 0.7;
+            transition: opacity 0.3s ease, transform 0.3s ease;
+        }
+
+        .bottle-trigger:hover {
+            opacity: 1;
+            transform: translateY(-5px) scale(1.05);
+        }
+
+        .bottle-trigger.active {
+            opacity: 1;
+            transform: translateY(-10px) scale(1.1);
+        }
+        
+        /* --- Dynamic Animation Elements --- */
+        .animated-bottle {
+            position: absolute;
+            width: 60px;
+            height: 60px;
+            transform-origin: center center;
+            transition: all 0.8s ease-in-out;
+            z-index: 100;
+        }
+
+        /* --- Keyframe Animations --- */
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        @keyframes themeFadeIn {
+            from { opacity: 0; transform: scale(0.5); }
+            to { opacity: 1; transform: scale(1); }
+        }
+
+        @keyframes circularPath {
+            0% { transform: translate(var(--start-x), var(--start-y)) scale(1); }
+            50% { transform: translate(var(--mid-x), var(--mid-y)) scale(1.5); }
+            100% { transform: translate(var(--end-x), var(--end-y)) rotate(-15deg) scale(2); }
+        }
+
+        /* --- Responsive Design --- */
+        @media (max-width: 768px) {
+            header {
+                flex-direction: column;
+                gap: 1rem;
+            }
+
+            .main-container {
+                flex-direction: column;
+                padding: 2rem 5%;
+            }
+
+            .product-info {
+                max-width: 100%;
+                text-align: center;
+                margin-bottom: 2rem;
+            }
+
+            .product-info h1 {
+                font-size: 3rem;
+            }
+
+            .product-info p {
+                font-size: 1rem;
+            }
+
+            .main-bottle-display {
+                width: 70%;
+            }
+
+            .controls {
+                gap: 4rem;
+                padding: 4rem;
+            }
+
+            .bottle-trigger {
+                width: 45px;
+                height: 45px;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <div class="logo">JuiceCo</div>
+        <nav>
+            <a href="#">Home</a>
+            <a href="#">Flavors</a>
+            <a href="#">About</a>
+        </nav>
+        <button class="shop-button">Shop Online</button>
+    </header>
+
+    <main class="main-container">
+        <div class="product-info">
+            <h1 id="product-title">Juice Title</h1>
+            <p id="product-description">Description of the juice product will go here. It will be updated dynamically based on the selected flavor. Our juices are made with 100% natural fruit and no added sugars.</p>
+        </div>
+        <div class="main-bottle-display">
+            <img id="main-bottle" src="./images/strawberry.png" alt="Main Juice Bottle">
+        </div>
+    </main>
+
+    <div class="controls">
+        <img class="bottle-trigger active" src="./images/strawbery.png" data-flavor="strawberry" alt="Strawberry Trigger">
+        <img class="bottle-trigger" src="./images/orange.png" data-flavor="orange" alt="Orange Trigger">
+        <img class="bottle-trigger" src="./images/apple.png" data-flavor="apple" alt="Apple Trigger">
+        <img class="bottle-trigger" src="./images/grapes.png" data-flavor="grape" alt="Grape Trigger">
+        <img class="bottle-trigger" src="./images/plum.png" data-flavor="plum" alt="plum Trigger">
+        <img class="bottle-trigger" src="./images/watermelon.png" data-flavor="watermelon" alt="watermelon Trigger">
+    </div>
+
+    <script>
+        // Data for each flavor
+        const products = [
+            {
+                flavor: 'strawberry',
+                title: 'Strawberry Sunshine',
+                description: 'Our classic Strawberry Sunshine is bursting with the sweet and tangy flavor of fresh, ripe strawberries. Packed with Vitamin C and antioxidants, it\'s a refreshing treat any time of day.',
+                mainImage: './images/strawbery.png',
+                smallImage: './images/strawberry.png',
+                themeElements: [
+                    { type: 'leaf', image: './images/strawberry.png', position: 'leaf-left' },
+                    { type: 'slice', image: './images/strawberry.png', position: 'slice-bottom' },
+                ],
+                colors: ['#ff6a6a', '#f7b731']
+            },
+            {
+                flavor: 'orange',
+                title: 'Orange Zest',
+                description: 'Experience the bright and zesty taste of our Orange Zest. Made from the juiciest oranges, it\'s a natural source of Vitamin C and a perfect way to start your morning. Pure and simply delicious.',
+                mainImage: './images/orange.png',
+                smallImage: './images/oranges.png',
+                themeElements: [
+                    { type: 'slice', image: './images/oranges.png', position: 'leaf-left' },
+                    { type: 'leaf', image: './images/oranges.png', position: 'leaf-right' },
+                ],
+                colors: ['#f7b731', '#F1A13C']
+            },
+            {
+                flavor: 'apple',
+                title: 'Crisp Apple',
+                description: 'Savor the crisp and sweet flavor of our Crisp Apple. Pressed from carefully selected apples, this juice is a delightful and wholesome beverage for all ages. Enjoy the pure taste of nature in every sip.',
+                mainImage: './images/apple.png',
+                smallImage: './images/apples.png',
+                themeElements: [
+                    { type: 'leaf', image: './images/apples.png', position: 'leaf-right' },
+                    { type: 'leaf', image: './images/apples.png', position: 'leaf-left' },
+                ],
+                colors: ['#4CAF50', '#a4d4a8']
+            },
+            {
+                flavor: 'grape',
+                title: 'Grape Escape',
+                description: 'Indulge in the rich and fruity taste of our Grape Escape. Made from plump, sun-ripened grapes, it\'s a naturally sweet and satisfying drink. Perfect as a refreshing beverage or a delicious addition to any meal.',
+                mainImage: './images/grapes.png',
+                smallImage: './images/grape.png',
+                themeElements: [
+                    { type: 'leaf', image: './images/grape.png', position: 'leaf-left' },
+                    { type: 'slice', image:'./images/grape.png', position:'slice-bottom' },
+                ],
+                colors: ['#9b59b6', '#8e44ad']
+            },
+            {
+                flavor: 'plum',
+                title: 'plum',
+                description: 'plum is a vine-like flowering plant in the Cucurbitaceae family, related to cucumbers, pumpkins, and cantaloupes.It grows on sprawling vines with stems up to 3 meters long, featuring lobed leaves and unisexual flowers.',
+                mainImage: './images/plum.png',
+                smallImage: './images/plums.png',
+                themeElements: [
+                    { type: 'leaf', image: './images/plums.png', position: 'leaf-left' },
+                    { type: 'slice', image: './images/plums.png', position: 'slice-bottom' },
+                ],
+                colors: ['#9b59b6', '#8e44ad']
+            },
+            {
+                flavor: 'watermelon',
+                title: 'watermelon',
+                description: 'Watermelon is a vine-like flowering plant in the Cucurbitaceae family, related to cucumbers, pumpkins, and cantaloupes.It grows on sprawling vines with stems up to 3 meters long, featuring lobed leaves and unisexual flowers.',
+                mainImage: './images/watermelon.png',
+                smallImage: './images/watermelons.png',
+                themeElements: [
+                    { type: 'leaf', image:'./images/watermelons.png', position: 'leaf-right' },
+                    { type: 'slice', image:'./images/watermelons.png', position: 'slice-bottom' },
+                ],
+                colors: ['#9b59b6', '#8e44ad']
+            }
+        ];
+
+        // Get DOM elements
+        const body = document.body;
+        const mainBottle = document.getElementById('main-bottle');
+        const productTitle = document.getElementById('product-title');
+        const productDescription = document.getElementById('product-description');
+        const bottleTriggers = document.querySelectorAll('.bottle-trigger');
+        const mainContainer = document.querySelector('.main-container');
+        const mainBottleDisplay = document.querySelector('.main-bottle-display');
+
+        // Function to update the UI with new product data
+        function updateProduct(product) {
+            // Update colors
+            body.style.background = `linear-gradient(135deg, ${product.colors[0]}, ${product.colors[1]})`;
+
+            // Update text content
+            productTitle.textContent = product.title;
+            productDescription.textContent = product.description;
+
+            // Reset and start image animation
+            const oldBottle = document.getElementById('main-bottle');
+            const newBottle = oldBottle.cloneNode(true);
+            newBottle.src = product.mainImage;
+            oldBottle.parentNode.replaceChild(newBottle, oldBottle);
+            newBottle.id = 'main-bottle';
+
+            // Remove previous theme elements
+            document.querySelectorAll('.theme-element').forEach(el => el.remove());
+
+            // Create and add new theme elements
+            product.themeElements.forEach(el => {
+                const themeImg = document.createElement('img');
+                themeImg.src = el.image;
+                themeImg.classList.add('theme-element', el.position);
+                mainBottleDisplay.appendChild(themeImg);
+            });
+        }
+
+        // Function to handle bottle animation
+        function animateBottle(clickedTrigger, product) {
+            // Remove any existing animated bottles
+            document.querySelectorAll('.animated-bottle').forEach(el => el.remove());
+
+            // Create and animate the small bottle
+            const animatedBottle = document.createElement('img');
+            animatedBottle.src = product.smallImage;
+            animatedBottle.classList.add('animated-bottle');
+            
+            const startRect = clickedTrigger.getBoundingClientRect();
+            const endRect = mainBottle.getBoundingClientRect();
+
+            // Set up initial position of the animated bottle
+            animatedBottle.style.top = `${startRect.top}px`;
+            animatedBottle.style.left = `${startRect.left}px`;
+            
+            document.body.appendChild(animatedBottle);
+
+            // Calculate circular path control points
+            const startX = startRect.left;
+            const startY = startRect.top;
+            const endX = endRect.left;
+            const endY = endRect.top;
+            const midX = startX + (endX - startX) * 0.5;
+            const midY = startY - 200; // Curve the path upwards
+
+            // Set CSS variables for animation
+            animatedBottle.style.setProperty('--start-x', `${startX}px`);
+            animatedBottle.style.setProperty('--start-y', `${startY}px`);
+            animatedBottle.style.setProperty('--mid-x', `${midX}px`);
+            animatedBottle.style.setProperty('--mid-y', `${midY}px`);
+            animatedBottle.style.setProperty('--end-x', `${endX}px`);
+            animatedBottle.style.setProperty('--end-y', `${endY}px`);
+
+            // Trigger the animation
+            animatedBottle.style.animation = 'circularPath 1.2s forwards';
+
+            setTimeout(() => {
+                animatedBottle.remove();
+                updateProduct(product);
+            }, 1200);
+        }
+        
+        // Add event listeners to each trigger bottle
+        bottleTriggers.forEach(trigger => {
+            trigger.addEventListener('click', () => {
+                const flavor = trigger.dataset.flavor;
+                const product = products.find(p => p.flavor === flavor);
+
+                // Remove active class from all and add to the clicked one
+                bottleTriggers.forEach(t => t.classList.remove('active'));
+                trigger.classList.add('active');
+
+                // Animate and update the UI
+                animateBottle(trigger, product);
+            });
+        });
+
+        // Set initial product on page load
+        updateProduct(products[0]);
+    </script>
+
+</body>
+</html>
