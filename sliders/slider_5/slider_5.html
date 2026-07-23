@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Vertical Trigger Slider</title>
+<style>
+body {
+    margin: 0;
+    height: 100vh;
+    background: linear-gradient(135deg, black, pink, red);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-family: Arial, sans-serif;
+}
+
+/* Transparent glass container */
+.slider-container {
+    width: 900px;
+    height: 500px;
+    background: rgba(255,255,255,0.08);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    border-radius: 20px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 20px;
+    box-shadow: 0 0 25px rgba(255,255,255,0.1);
+    border: 2px solid rgba(255,255,255,0.15);
+    transition: background-color 0.4s ease, box-shadow 0.4s ease;
+}
+
+/* Trigger buttons column */
+.trigger-column {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+/* Circular triggers */
+.trigger {
+    width: 80px;
+    height: 80px;
+    border-radius: 50%;
+    border: 3px solid rgba(255,255,255,0.5);
+    background: rgba(255,255,255,0.1);
+    overflow: hidden;
+    cursor: pointer;
+    transition: transform 0.2s ease, border-color 0.3s ease;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.trigger img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+.trigger:hover {
+    transform: scale(1.1);
+    border-color: gold;
+}
+
+/* Main display image (rectangle now) */
+.main-display {
+    width: 550px;
+    height: 550px;
+    /* background: rgba(255,255,255,0.15); */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    overflow: hidden;
+    /* border-radius: 15px; just slightly rounded corners */
+    /* border: 4px solid rgba(255,255,255,0.3); */
+    transition: border-color 0.4s ease;
+}
+.main-display img {
+    width: 100%;
+    height: 100%;
+    object-fit: contain; /* Keep full image visible */
+}
+
+/* Info text */
+.info {
+    position: absolute;
+    bottom: 40px;
+    width: 100%;
+    text-align: center;
+    color: white;
+}
+.info h2 {
+    margin: 0;
+    font-size: 1.4rem;
+}
+.info p {
+    margin: 4px 0 0;
+    opacity: 0.8;
+}
+</style>
+</head>
+<body>
+
+<div class="slider-container" id="sliderBox">
+    <!-- Left triggers -->
+    <div class="trigger-column">
+        <div class="trigger" onclick="changeSlide(0)"><img src="./images/d1.png"></div>
+        <div class="trigger" onclick="changeSlide(1)"><img src="./images/d2.png"></div>
+        <div class="trigger" onclick="changeSlide(2)"><img src="./images/d3.png"></div>
+    </div>
+
+    <!-- Main image -->
+    <div class="main-display" id="mainDisplay">
+        <img src="./images/d1.png" id="mainImage">
+    </div>
+
+    <!-- Right triggers -->
+    <div class="trigger-column">
+        <div class="trigger" onclick="changeSlide(3)"><img src="./images/d4.png"></div>
+        <div class="trigger" onclick="changeSlide(4)"><img src="./images/d5.png"></div>
+        <div class="trigger" onclick="changeSlide(5)"><img src="./images/d6.png"></div>
+    </div>
+</div>
+
+<div class="info" id="infoBox">
+    <h2 id="title">Algae Dragon </h2>
+    <p id="desc">Precision and comfort with the Algae Dragon  Controller.</p>
+</div>
+
+<script>
+const slides = [
+    { title: "Algae Dragon ", desc: "Precision and comfort with the Algae Dragon  Controller.", img: "./images/d1.png", color: "rgba(0,170,0,0.15)" },
+    { title: "Rosa Dragon ", desc: "Bright and bold, perfect for stylish gamers.", img: "./images/d2.png", color: "rgba(255,102,179,0.15)" },
+    { title: "Azure Dragon ", desc: "Cool and calm, keeps your gameplay fresh.", img: "./images/d3.png", color: "rgba(51,153,255,0.15)" },
+    { title: "Ember Dragon ", desc: "Bring the heat with fiery design.", img: "./images/d4.png", color: "rgba(255,102,0,0.15)" },
+    { title: "Aqua Dragon ", desc: "Dive into adventure with Aqua Dragon.", img: "./images/d5.png", color: "rgba(0,204,204,0.15)" },
+    { title: "Forest Dragon ", desc: "Nature vibes with Forest Dragon.", img: "./images/d6.png", color: "rgba(102,255,51,0.15)" }
+];
+
+let currentIndex = 0;
+
+function changeSlide(index) {
+    const mainImg = document.getElementById("mainImage");
+    const title = document.getElementById("title");
+    const desc = document.getElementById("desc");
+    const sliderBox = document.getElementById("sliderBox");
+    const mainDisplay = document.getElementById("mainDisplay");
+
+    // Fade animation
+    mainImg.style.opacity = 0;
+    setTimeout(() => {
+        mainImg.src = slides[index].img;
+        mainImg.style.opacity = 1;
+    }, 300);
+
+    // Update info
+    title.textContent = slides[index].title;
+    desc.textContent = slides[index].desc;
+
+    // Change inside div background and border color
+    sliderBox.style.backgroundColor = slides[index].color;
+    mainDisplay.style.borderColor = slides[index].color.replace("0.15", "0.6");
+
+    currentIndex = index;
+}
+</script>
+
+</body>
+</html>
