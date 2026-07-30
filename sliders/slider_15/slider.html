@@ -1,0 +1,265 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cartoon Shard UI</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css" />
+    <style>
+        :root {
+            --toon-yellow: #fff200;
+            --toon-pink: #ff00ff;
+            --toon-blue: #00aeef;
+            --comic-ink: #111;
+            --z-shard-clip: polygon(20% 0%, 100% 0%, 100% 25%, 50% 25%, 80% 75%, 0% 75%, 0% 100%, 80% 100%, 80% 75%, 50% 25%, 20% 25%, 0% 25%, 0% 0%);
+        }
+
+        body {
+            background-color: #222;
+            background-image: radial-gradient(var(--comic-ink) 20%, transparent 20%);
+            background-size: 15px 15px; 
+            margin: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            overflow: hidden;
+            font-family: 'Bangers', 'Arial Black', sans-serif;
+        }
+
+        .ui-wrapper {
+            display: flex;
+            align-items: center;
+            width: 90%;
+            gap: 40px;
+        }
+
+        /* --- SIDE MENU: ACTION BUBBLES --- */
+        .side-menu { display: flex; flex-direction: column; gap: 20px; width: 80px; z-index: 5; }
+
+        .side-item {
+            width: 65px; height: 65px;
+            background: white;
+            border: 4px solid var(--comic-ink);
+            clip-path: polygon(10% 0%, 90% 0%, 100% 50%, 90% 100%, 10% 100%, 0% 50%);
+            cursor: pointer;
+            display: none;
+            align-items: center; justify-content: center;
+            transition: 0.3s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+        }
+
+        .side-item.visible { display: flex; opacity: 0.6; transform: scale(0.8) rotate(-5deg); }
+        .side-item.active { 
+            display: flex; opacity: 1; transform: scale(1.1) rotate(5deg); 
+            background: var(--toon-yellow);
+            box-shadow: 5px 5px 0px var(--comic-ink);
+        }
+
+        .side-item img { width: 70%; filter: drop-shadow(2px 2px 0 var(--comic-ink)); }
+
+        /* --- MAIN SLIDER --- */
+        .slider-container { flex-grow: 1; }
+        .swiper { padding: 100px 0; overflow: visible !important; margin-left: -500px; }
+        .swiper-slide { width: 300px; height: 400px; transition: 0.4s; filter: grayscale(1) opacity(0.5); }
+        .swiper-slide-active { filter: grayscale(0) opacity(1); transform: scale(1.1); }
+
+        .card-wrapper {
+            position: relative;
+            width: 100%; height: 100%;
+            display: flex; align-items: flex-end;
+        }
+
+  
+        .card-bg {
+            position: absolute;
+            width: 100%; height: 85%;
+            background: var(--toon-blue);
+            clip-path: var(--z-shard-clip);
+            z-index: 2;
+            border: 6px solid var(--comic-ink);
+        }
+
+      
+        .leak-container {
+            position: absolute;
+            top: 25%; left: 0;
+            width: 100%; height: 50%;
+            z-index: 1;
+            overflow: hidden;
+            pointer-events: none;
+        }
+
+        .swiper-slide-active .speed-bolt {
+            position: absolute;
+            width: 200%; height: 20px;
+            background: var(--toon-pink);
+            box-shadow: 0 0 0 4px var(--comic-ink);
+            top: 50%; left: -150%;
+            transform: rotate(-35deg) skewX(-45deg);
+            animation: boltZap 0.8s infinite linear;
+        }
+
+        @keyframes boltZap {
+            0% { left: -150%; }
+            100% { left: 150%; }
+        }
+
+        /* Character */
+        .char-img {
+            position: absolute;
+            left: 40%;
+            top: 35%;
+            transform: translateX(-50%);
+            width: 60%;
+            z-index: 5;
+            transition: 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            filter: drop-shadow(8px 8px 0 var(--comic-ink));
+        }
+
+        .swiper-slide-active:hover .char-img {
+            transform: translateX(-50%) translateY(-20px) scale(1.1) rotate(3deg);
+        }
+
+        /* Action Text Badge */
+        .action-tag {
+            position: absolute;
+            top: 0; right: -20px;
+            background: var(--toon-pink);
+            color: white;
+            padding: 5px 15px;
+            font-weight: 900;
+            border: 4px solid var(--comic-ink);
+            transform: rotate(15deg);
+            z-index: 10;
+            opacity: 0;
+            transition: 0.3s;
+        }
+
+        .swiper-slide-active .action-tag { opacity: 1; top: 20px; }
+    </style>
+</head>
+<body>
+
+    <h1 style=" position: absolute;
+            top: 0; background: var(--toon-yellow);
+            color: white;
+            padding: 10px 20px;
+            letter-spacing: 50%;
+            font-weight: 1000;
+            border: 4px solid var(--comic-ink);">SLIDER</h1>
+<div class="ui-wrapper">
+    <div class="side-menu" id="sideMenu"></div>
+
+    <div class="slider-container">
+        <div class="swiper mySwiper">
+            <div class="swiper-wrapper" id="mainWrapper"></div>
+        </div>
+    </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
+<script>
+    const cartoonUnits = [
+        { name: "CRACK!",  img: "./images/images (1).jpg" },
+        { name: "CRASH!",  img: "./images/images (2).jpg" },
+        { name: "BOOM!", img: "./images/images (3).jpg" },
+        { name: "BANG!", img: "./images/images (4).jpg" },
+        { name: "WOW!",  img: "./images/images (5).jpg" },
+        { name: "MOG!",  img: "./images/images (6).jpg" },
+        { name: "BAM!", img: "./images/images.jpg" }
+    ];
+
+    const sideMenu = document.getElementById('sideMenu');
+    const mainWrapper = document.getElementById('mainWrapper');
+
+    cartoonUnits.forEach((unit, index) => {
+        const side = document.createElement('div');
+        side.className = 'side-item';
+        side.onclick = () => swiper.slideTo(index);
+        side.innerHTML = `<img src="${unit.img}">`;
+        sideMenu.appendChild(side);
+
+        const slide = document.createElement('div');
+        slide.className = 'swiper-slide';
+        slide.innerHTML = `
+            <div class="card-wrapper">
+                <div class="action-tag">${unit.name}</div>
+                <div class="leak-container"><div class="speed-bolt"></div></div>
+                <div class="card-bg"></div>
+                <img src="${unit.img}" class="char-img">
+            </div>
+        `;
+        mainWrapper.appendChild(slide);
+    });
+
+    const sideItems = document.querySelectorAll('.side-item');
+    const updateMenu = (index) => {
+        sideItems.forEach((el, i) => {
+            el.classList.remove('active', 'visible');
+            if (i === index) el.classList.add('active', 'visible');
+            else if (i === index - 1 || i === index + 1) el.classList.add('visible');
+        });
+    };
+
+    const swiper = new Swiper(".mySwiper", {
+        effect: "coverflow",
+        centeredSlides: true,
+        slidesPerView: "auto",
+        coverflowEffect: { rotate: 5, stretch: 50, depth: 100, modifier: 1, slideShadows: false },
+        on: {
+            init: function() { updateMenu(this.activeIndex); },
+            slideChange: function() { updateMenu(this.activeIndex); }
+        }
+    });
+</script>
+</body>
+</html>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!-- 
+
+1. The "Stealth Fighter" (Sharp Asymmetry)
+Instead of cutting all four corners, we only cut the top-right and bottom-right at extreme angles, creating a forward-leaning, aggressive shape.
+
+The Structure: A trapezoidal leaning card.
+
+The Feature: A "Status Bar" cut-out on the left side using negative space.
+
+Clip-Path: polygon(0% 0%, 85% 0%, 100% 15%, 100% 100%, 15% 100%, 0% 85%);
+
+2. The "Shards" (The Floating Panel Look)
+Instead of one solid card, the clip-path makes the card look like two separate panels floating near each other.
+
+The Structure: Use a "split" look where the top-left and bottom-right corners are completely missing, leaving a Z-shaped body.
+
+The Feature: The moving border doesn't go around the card; it "leaks" through the gap in the middle.
+
+Clip-Path: polygon(20% 0%, 100% 0%, 100% 20%, 80% 20%, 80% 80%, 100% 80%, 100% 100%, 0% 100%, 0% 80%, 20% 80%, 20% 20%, 0% 20%, 0% 0%);
+
+3. The "Bio-Hex" (Hexagonal Inset)
+This moves away from the "box" entirely and uses a tall, stretched hexagon with "bitten" edges.
+
+The Structure: A vertical hexagon with small notches in the center of each side.
+
+The Feature: The character "pops" out of a circular portal inside the hexagon.
+
+Clip-Path: polygon(50% 0%, 100% 20%, 100% 45%, 90% 50%, 100% 55%, 100% 80%, 50% 100%, 0% 80%, 0% 55%, 10% 50%, 0% 45%, 0% 20%);
+
+
+
+
+-->

@@ -1,0 +1,208 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bio-Hex Solarpunk UI</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css" />
+    <style>
+        :root {
+            --emerald: #00ff88;
+            --moss: #0a2e1f;
+            --gold-leaf: #d4af37;
+            --hex-clip: polygon(50% 0%, 100% 20%, 100% 45%, 90% 50%, 100% 55%, 100% 80%, 50% 100%, 0% 80%, 0% 55%, 10% 50%, 0% 45%, 0% 20%);
+        }
+
+        body {
+            background-color: #002c1d;
+            margin: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            overflow: hidden;
+            font-family: 'Montserrat', sans-serif;
+        }
+
+        .ui-wrapper {
+            display: flex;
+            align-items: center;
+            width: 90%;
+            gap: 40px;
+        }
+
+        /* --- SIDE MENU: SEED PODS --- */
+        .side-menu { display: flex; flex-direction: column; gap: 15px; width: 80px; z-index: 5; }
+
+        .side-item {
+            width: 55px; height: 75px;
+            background: rgba(0, 255, 136, 0.1);
+            clip-path: polygon(50% 0%, 100% 25%, 100% 75%, 50% 100%, 0% 75%, 0% 25%);
+            cursor: pointer;
+            display: none;
+            align-items: center; justify-content: center;
+            transition: 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .side-item.visible { display: flex; opacity: 0.3; transform: scale(0.8); }
+        .side-item.active { 
+            display: flex; opacity: 1; transform: scale(1.1); 
+            background: var(--emerald);
+            box-shadow: 0 0 20px var(--emerald);
+        }
+
+        .side-item img { width: 85%; }
+
+        /* --- MAIN SLIDER --- */
+        .slider-container { flex-grow: 1; }
+        .swiper { padding: 100px 0; overflow: visible !important; margin-left: -800px;}
+        .swiper-slide { width: 320px; height: 440px; transition: 0.5s; filter: opacity(0.2); }
+        .swiper-slide-active { filter: opacity(1); }
+
+        .card-wrapper {
+            position: relative;
+            width: 100%; height: 100%;
+            display: flex; align-items: center; justify-content: center;
+        }
+
+        /* The Bio-Hex Background */
+        .card-main {
+            position: absolute;
+            width: 100%; height: 100%;
+            background: linear-gradient(180deg, #103b29 0%, #051a12 100%);
+            clip-path: var(--hex-clip);
+            z-index: 1;
+            border: 1px solid rgba(0, 255, 136, 0.1);
+        }
+
+        /* The Circular Portal */
+        .portal {
+            position: absolute;
+            width: 220px; height: 220px;
+            background: radial-gradient(circle, rgba(0, 255, 136, 0.2) 0%, transparent 70%);
+            border: 2px solid var(--emerald);
+            border-radius: 50%;
+            z-index: 2;
+            box-shadow: inset 0 0 30px var(--emerald), 0 0 20px var(--emerald);
+            animation: portalPulse 4s infinite ease-in-out;
+        }
+
+        @keyframes portalPulse {
+            0%, 100% { transform: scale(1); opacity: 0.6; }
+            50% { transform: scale(1.05); opacity: 1; }
+        }
+
+        .swiper-slide-active .notch-glow {
+            position: absolute;
+            width: 110%; height: 2px;
+            background: var(--emerald);
+            z-index: 2;
+            top: 50%; left: -5%;
+            box-shadow: 0 0 15px var(--emerald);
+            animation: rotateGlow 10s linear infinite;
+        }
+
+        @keyframes rotateGlow {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        /* Character Pop-out */
+        .char-img {
+            position: absolute;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 220px; height: 220px;
+            border-radius: 50%;
+            z-index: 5;
+            transition: 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            filter: drop-shadow(0 10px 15px rgba(0,0,0,0.5));
+        }
+
+        .swiper-slide-active:hover .char-img {
+            transform: translateX(-50%) translateY(-30px) scale(1.1);
+        }
+
+        .char-name {
+            position: absolute;
+            bottom: -20px;
+            color: var(--emerald);
+            text-transform: uppercase;
+            letter-spacing: 5px;
+            font-size: 0.9rem;
+            text-shadow: 0 0 10px var(--emerald);
+        }
+    </style>
+</head>
+<body>
+<h1 style="box-shadow: inset 0 0 30px var(--emerald), 0 0 20px var(--emerald); position: absolute; top: 5%; letter-spacing: 60%;">SLIDER</h1>
+<div class="ui-wrapper">
+    <div class="side-menu" id="sideMenu"></div>
+
+    <div class="slider-container">
+        <div class="swiper mySwiper">
+            <div class="swiper-wrapper" id="mainWrapper"></div>
+        </div>
+    </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
+<script>
+    const bioUnits = [
+        { name: "PIKACHU", img: "./images/images (1).jpg" },
+        { name: "ZAPDOS", img: "./images/images (2).jpg" },
+        { name: "GRENINZA", img: "./images/images (3).jpg" },
+        { name: "GENGAR", img: "./images/images (4).jpg" },
+        { name: "DARKRAI", img: "./images/images (5).jpg" },
+        { name: "SQUATAL", img: "./images/images (6).jpg" },
+        { name: "CHARIZAD XY", img: "./images/images (7).jpg" },
+        { name: "DRAGONAIR", img: "./images/images (8).jpg" },
+        { name: "CHAMENDOR", img: "./images/images.jpg" }
+    ];
+
+    const sideMenu = document.getElementById('sideMenu');
+    const mainWrapper = document.getElementById('mainWrapper');
+
+    bioUnits.forEach((unit, index) => {
+        const side = document.createElement('div');
+        side.className = 'side-item';
+        side.onclick = () => swiper.slideTo(index);
+        side.innerHTML = `<img src="${unit.img}">`;
+        sideMenu.appendChild(side);
+
+        const slide = document.createElement('div');
+        slide.className = 'swiper-slide';
+        slide.innerHTML = `
+            <div class="card-wrapper">
+                <div class="notch-glow"></div>
+                <div class="portal"></div>
+                <div class="card-main"></div>
+                <img src="${unit.img}" class="char-img">
+                <div class="char-name">${unit.name}</div>
+            </div>
+        `;
+        mainWrapper.appendChild(slide);
+    });
+
+    const sideItems = document.querySelectorAll('.side-item');
+    const updateSide = (index) => {
+        sideItems.forEach((item, i) => {
+            item.classList.remove('active', 'visible');
+            if (i === index) item.classList.add('active', 'visible');
+            else if (i === index - 1 || i === index + 1) item.classList.add('visible');
+        });
+    };
+
+    const swiper = new Swiper(".mySwiper", {
+        effect: "coverflow",
+        centeredSlides: true,
+        slidesPerView: "auto",
+        coverflowEffect: { rotate: 0, stretch: 50, depth: 400, modifier: 1, slideShadows: false },
+        on: {
+            init: function() { updateSide(this.activeIndex); },
+            slideChange: function() { updateSide(this.activeIndex); }
+        }
+    });
+</script>
+</body>
+</html>
