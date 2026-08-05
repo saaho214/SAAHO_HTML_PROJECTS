@@ -1,0 +1,348 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Fluid Media Network Gallery</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+    --glow-cyan: #06b6d4;
+    --glow-magenta: #d946ef;
+    --wheel-diameter: 520px;
+    --slide-dim: 180px;
+    --gallery-bg: #0f1423;
+    --text-main: #0f172a;
+    --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+body {
+    font-family: 'Inter', sans-serif;
+    background-color: #f8fafc;
+    padding: 40px 25px;
+    margin: 0;
+}
+
+.section-header {
+    font-size: 22px;
+    font-weight: 700;
+    margin-bottom: 20px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    color: var(--text-main);
+}
+
+/* ================= GALLERY VIEWPORT CONTAINER ================= */
+.gallery-workspace-section {
+    background-color: var(--gallery-bg);
+    border-radius: 24px;
+    padding: 40px;
+    position: relative;
+    height: 580px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    overflow: hidden;
+    box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.3);
+}
+
+.gallery-viewport-frame {
+    position: absolute;
+    top: 0;
+    width: calc(var(--wheel-diameter) / 2);
+    height: 100%;
+    z-index: 10;
+}
+.g-left { left: 0; }
+.g-right { right: 0; }
+
+.boundary-line {
+    position: absolute;
+    top: calc(50% - (var(--wheel-diameter) / 2));
+    width: var(--wheel-diameter);
+    height: var(--wheel-diameter);
+    border-radius: 50%;
+    pointer-events: none;
+    z-index: 5;
+}
+.g-left .boundary-line {
+    left: calc(var(--wheel-diameter) / -2);
+    border-right: 3px dashed rgba(6, 182, 212, 0.25);
+}
+.g-right .boundary-line {
+    right: calc(var(--wheel-diameter) / -2);
+    border-left: 3px dashed rgba(217, 70, 239, 0.25);
+}
+
+/* Rotating Wheel Pivot Node */
+.wheel {
+    position: absolute;
+    width: var(--wheel-diameter);
+    height: var(--wheel-diameter);
+    top: calc(50% - (var(--wheel-diameter) / 2));
+    border-radius: 50%;
+    transition: transform 1.2s cubic-bezier(0.25, 1, 0.5, 1);
+    will-change: transform;
+}
+.g-left .wheel { left: calc(var(--wheel-diameter) / -2); }
+.g-right .wheel { right: calc(var(--wheel-diameter) / -2); }
+
+/* ================= SLIDE ELEMENT COMPONENT ================= */
+.slide {
+    position: absolute;
+    width: var(--slide-dim);
+    height: var(--slide-dim);
+    top: calc(50% - (var(--slide-dim) / 2));
+    left: calc(50% - (var(--slide-dim) / 2));
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 10;
+    transition: transform 1.2s cubic-bezier(0.25, 1, 0.5, 1), opacity 0.6s;
+    opacity: 0.5;
+}
+
+.slide-droplet {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background: rgba(255, 255, 255, 0.05);
+    box-shadow:
+        inset 8px 8px 12px rgba(0, 0, 0, 0.3),
+        2px 10px 12px rgba(0, 0, 0, 0.2),
+        inset -8px -8px 12px rgba(255, 255, 255, 0.05);
+    animation: waterBubbleMorph 6s ease-in-out infinite alternate;
+    transition: box-shadow 0.6s, border-radius 0.4s;
+}
+
+.slide:hover .slide-droplet {
+    animation-play-state: paused;
+    border-radius: 50% !important;
+}
+
+.slide-droplet::before {
+    content: '';
+    position: absolute;
+    width: 12px;
+    height: 12px;
+    background: rgba(255, 255, 255, 0.6);
+    border-radius: 50%;
+    pointer-events: none;
+    animation: specularShift1 6s ease-in-out infinite alternate;
+}
+
+.slide-droplet::after {
+    content: '';
+    position: absolute;
+    width: 6px;
+    height: 6px;
+    background: rgba(255, 255, 255, 0.4);
+    border-radius: 50%;
+    pointer-events: none;
+    animation: specularShift2 6s ease-in-out infinite alternate;
+}
+
+.slide img {
+    width: 110px;
+    height: 110px;
+    object-fit: cover;
+    border-radius: 50%;
+    opacity: 0.75;
+    border: 3px solid #ffffff;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+    transition: transform 1.2s cubic-bezier(0.25, 1, 0.5, 1), border-color 0.6s, opacity 0.6s;
+}
+
+/* ================= ACTIVE STATE OVERRIDES ================= */
+.slide.active {
+    opacity: 1;
+    z-index: 50;
+}
+
+.slide.active .slide-droplet {
+    animation: activeBubbleMorph 4s ease-in-out infinite alternate;
+}
+
+.g-left .slide.active .slide-droplet {
+    box-shadow:
+        inset 8px 8px 12px rgba(0, 0, 0, 0.2),
+        0 0 30px rgba(6, 182, 212, 0.6),
+        inset -8px -8px 15px rgba(6, 182, 212, 0.3);
+}
+.g-left .slide.active img { border-color: var(--glow-cyan); opacity: 1; }
+
+.g-right .slide.active .slide-droplet {
+    box-shadow:
+        inset 8px 8px 12px rgba(0, 0, 0, 0.2),
+        0 0 30px rgba(217, 70, 239, 0.6),
+        inset -8px -8px 15px rgba(217, 70, 239, 0.3);
+}
+.g-right .slide.active img { border-color: var(--glow-magenta); opacity: 1; }
+
+/* ================= CENTRAL GRAPHIC CONTENT CARD ================= */
+.center-content {
+    text-align: center;
+    max-width: 420px;
+    padding: 20px;
+    z-index: 15;
+}
+.center-content h2 {
+    font-size: 2.2rem;
+    margin-bottom: 12px;
+    font-weight: 700;
+    letter-spacing: -0.5px;
+    background: linear-gradient(135deg, var(--glow-cyan), var(--glow-magenta));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+.center-content p {
+    color: #94a3b8;
+    font-size: 0.95rem;
+    line-height: 1.6;
+}
+
+/* ================= MORPHING KEYFRAMES SYSTEM ================= */
+@keyframes waterBubbleMorph {
+    0% { border-radius: 61% 39% 52% 48% / 44% 59% 41% 56%; }
+    50% { border-radius: 40% 60% 45% 55% / 55% 45% 55% 45%; }
+    100% { border-radius: 55% 45% 58% 42% / 40% 63% 37% 60%; }
+}
+
+@keyframes activeBubbleMorph {
+    0% { border-radius: 45% 55% 40% 60% / 55% 40% 60% 45%; }
+    33% { border-radius: 60% 40% 55% 45% / 45% 55% 40% 60%; }
+    66% { border-radius: 50% 50% 42% 58% / 58% 42% 52% 48%; }
+    100% { border-radius: 42% 58% 62% 38% / 48% 65% 35% 52%; }
+}
+
+@keyframes specularShift1 {
+    0% { top: 15px; left: 20px; }
+    50% { top: 18px; left: 16px; }
+    100% { top: 13px; left: 22px; }
+}
+
+@keyframes specularShift2 {
+    0% { top: 32px; left: 28px; }
+    50% { top: 34px; left: 25px; }
+    100% { top: 30px; left: 32px; }
+}
+    </style>
+</head>
+<body>
+
+    <h2 class="section-header">
+        <i class="fa-solid fa-images"></i> 
+    </h2>
+    
+    <section class="gallery-workspace-section">
+        
+        <!-- LEFT AUTOMATED HALF-CIRCLE SLIDER -->
+        <div class="gallery-viewport-frame g-left">
+            <div class="boundary-line"></div>
+            <div class="wheel" id="wheel-left">
+                <div class="slide"><div class="slide-droplet"><img src="images/download.jpg" alt="L1"></div></div>
+                <div class="slide"><div class="slide-droplet"><img src="images/download1.jpg" alt="L2"></div></div>
+                <div class="slide"><div class="slide-droplet"><img src="images/download2.jpg" alt="L3"></div></div>
+                <div class="slide"><div class="slide-droplet"><img src="images/download3.jpg" alt="L4"></div></div>
+                <div class="slide"><div class="slide-droplet"><img src="images/download4.jpg" alt="L5"></div></div>
+                <div class="slide"><div class="slide-droplet"><img src="images/download5.jpg" alt="L6"></div></div>
+            </div>
+        </div>
+
+        <!-- CENTER CONTENT INFOCARD -->
+        <div class="center-content">
+            <h2>Fluid Droplet Mechanics</h2>
+            <p>The positioning layers are mathematically separated from the liquid-morphing loops. Left and right image droplets track smoothly into precise, responsive half-circles.</p>
+        </div>
+
+        <!-- RIGHT AUTOMATED HALF-CIRCLE SLIDER -->
+        <div class="gallery-viewport-frame g-right">
+            <div class="boundary-line"></div>
+            <div class="wheel" id="wheel-right">
+                <div class="slide"><div class="slide-droplet"><img src="images/download.jpg" alt="R1"></div></div>
+                <div class="slide"><div class="slide-droplet"><img src="images/download5.jpg" alt="R2"></div></div>
+                <div class="slide"><div class="slide-droplet"><img src="images/download4.jpg" alt="R3"></div></div>
+                <div class="slide"><div class="slide-droplet"><img src="images/download3.jpg" alt="R4"></div></div>
+                <div class="slide"><div class="slide-droplet"><img src="images/download2.jpg" alt="R5"></div></div>
+                <div class="slide"><div class="slide-droplet"><img src="images/download1.jpg" alt="R6"></div></div>
+            </div>
+        </div>
+        
+    </section>
+
+    <script >
+        document.addEventListener("DOMContentLoaded", () => {
+   
+    function createLiquidSlider(wheelId, startAngle, arcDirection, msInterval) {
+        const wheel = document.getElementById(wheelId);
+        if (!wheel) return;
+
+        const slides = wheel.querySelectorAll(".slide");
+        const totalItems = slides.length;
+
+        const stepAngle = 180 / (totalItems - 1); 
+        const radius = 260;
+        
+        let currentActiveIndex = Math.floor(totalItems / 2);
+
+        // -----------------------------------------------------------
+        // COMPUTE GEOMETRIC GRID ARCS
+        // -----------------------------------------------------------
+        function layoutEngine() {
+            slides.forEach((slide, index) => {
+                const itemAngle = startAngle + (index * stepAngle * arcDirection);
+                
+                const baseTransform = `rotate(${itemAngle}deg) translateX(${radius}px) rotate(${-itemAngle}deg)`;
+                
+                slide.dataset.baseTransform = baseTransform;
+                slide.style.transform = baseTransform;
+            });
+        }
+
+        // -----------------------------------------------------------
+        // HANDLE INTERACTIVE TRANSITION LAYERS
+        // -----------------------------------------------------------
+        function processTransition() {
+            const wheelRotation = -(currentActiveIndex - Math.floor(totalItems / 2)) * stepAngle * arcDirection;
+            wheel.style.transform = `rotate(${wheelRotation}deg)`;
+
+            slides.forEach((slide, index) => {
+                const img = slide.querySelector("img");
+                const base = slide.dataset.baseTransform;
+
+                if (index === currentActiveIndex) {
+                    slide.classList.add("active");
+                    slide.style.transform = `${base} scale(1.25)`;
+                } else {
+                    slide.classList.remove("active");
+                    slide.style.transform = base;
+                }
+
+                if (img) {
+                    img.style.transform = `rotate(${-wheelRotation}deg)`;
+                }
+            });
+        }
+
+        function advanceStep() {
+            currentActiveIndex = (currentActiveIndex + 1) % totalItems;
+            processTransition();
+        }
+
+        layoutEngine();
+        processTransition();
+        
+        setInterval(advanceStep, msInterval);
+    }
+
+    createLiquidSlider("wheel-left", -90, 1, 3000);
+
+    createLiquidSlider("wheel-right", 90, 1, 3600);
+});
+    </script>
+</body>
+</html> 
